@@ -3,7 +3,7 @@ const { writeFile } = require('fs');
 const { json } = require('body-parser');
 
 module.exports = function(options = {}) {
-    const basePath = options.basePath || '';
+    const basePath = options.basePath ? `/${options.basePath}`: '';
     const parser = json({
         limit: typeof options.limit === 'undefined' ? '10kb' : options.limit,
         type: () => true
