@@ -13,7 +13,7 @@ module.exports = function(options = {}) {
     const log = (key, entry) => key in logs ? logs[key].push(entry) : logs[key] = [entry];
     const dumpPath = path => pify(writeFile)(`${__dirname}${basePath}${path}.json`, JSON.stringify(logs[path]));
 
-    const middleware = (req, res, next) => {
+    const middleware = (req, res) => {
         log(req.path, req.body);
         res.sendStatus(200);
     };
