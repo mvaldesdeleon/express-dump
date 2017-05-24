@@ -1,6 +1,6 @@
 {
   "name": "express-dump",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Like a regular dump, only quicker.",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "body-parser": "^1.17.2",
+    "mkdirp": "^0.5.1",
     "pify": "^2.3.0"
   },
   "devDependencies": {
