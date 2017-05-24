@@ -1,0 +1,28 @@
+{
+  "name": "express-dump",
+  "version": "0.0.1",
+  "description": "Like a regular dump, only quicker.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "pify": "^2.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  },
+  "repository": "mvaldesdeleon/express-dump",
+  "keywords": [
+    "log",
+    "dump",
+    "json",
+    "collect",
+    "filesystem",
+    "express"
+  ],
+  "author": "Martin Valdes de Leon <m.valdesdeleon@gmail.com>",
+  "license": "MIT"
+}
