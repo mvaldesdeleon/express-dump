@@ -11,7 +11,7 @@ module.exports = function(options = {}) {
     });
     const logs = {};
 
-    const pathToFile = path => path.replace('/', '.');
+    const pathToFile = path => path.replace(/\//, '.');
 
     const log = (key, entry) => key in logs ? logs[key].push(entry) : logs[key] = [entry];
     const dumpPath = path => pify(writeFile)(`${basePath}/${pathToFile(path)}.json`, JSON.stringify(logs[path]));
