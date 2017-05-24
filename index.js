@@ -3,25 +3,21 @@ const mkdirp = require('mkdirp');
 const { writeFile } = require('fs');
 const { json } = require('body-parser');
 
-const removeLast = fullPath => fullPath.split('/').slice(0, -1).join('/') || '/';
-
 module.exports = function(options = {}) {
-    const basePath = options.path ? `${__dirname}/${options.path}`: __dirname;
+    const basePath = options.path || '.';
     const parser = json({
         limit: typeof options.limit === 'undefined' ? '10kb' : options.limit,
         type: () => true
     });
     const logs = {};
 
-    const getFullPath = path => `${__dirname}${basePath}${path}`;
-    const ensurePath = path => pify(mkdirp)(removeLast(getFullPath(path)));
-    const writePathToFile = path => pify(writeFile)(`${getFullPath(path)}.json`, JSON.stringify(logs[path]));
+    const pathToFile = path => path.replace('/', '.');
 
     const log = (key, entry) => key in logs ? logs[key].push(entry) : logs[key] = [entry];
-    const dumpPath = path => ensurePath(path).then(() => writePathToFile(path));
+    const dumpPath = path => pify(writeFile)(`${basePath}/${pathToFile(path)}.json`, JSON.stringify(logs[path]));
 
     const middleware = (req, res) => {
-        log(req.path, req.body);
+        log(req.path.slice(1), req.body);
         res.sendStatus(200);
     };
 
@@ -31,8 +27,11 @@ module.exports = function(options = {}) {
             else parser(req, res, () => middleware(req, res, next));
         },
         dump: function(path) {
-            if (path) return dumpPath(path);
-            else return Promise.all(Object.keys(logs).map(dumpPath));
+            return pify(mkdirp)(basePath)
+                .then(() => {
+                    if (path) return dumpPath(path);
+                    else return Promise.all(Object.keys(logs).map(dumpPath));
+                });
         }
     };
 };

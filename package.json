@@ -1,6 +1,6 @@
 {
   "name": "express-dump",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Like a regular dump, only quicker.",
   "main": "index.js",
   "scripts": {
